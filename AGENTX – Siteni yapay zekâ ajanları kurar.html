@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AGENTX – Siteni yapay zekâ ajanları kurar</title>
+<meta name="description" content="AGENTX: Bir cümleyle anlat, onlarca yapay zekâ ajanı siteni kursun.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#fff6f4;--fg:#1b0a0c;--muted:#6d4b4f;--card:#fff;--line:rgba(130,20,30,.16);--accent:#e0192b;--accent2:#ff6a3d;--glow:rgba(224,25,43,.22);--hdr:rgba(255,246,244,.82);--mbg:#0a0a0e;--mfg:#eadede;--mmut:#9a8a8d;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#07070a;--fg:#f7eeee;--muted:#a99c9e;--card:#111116;--line:rgba(255,255,255,.1);--accent:#ff2d3d;--accent2:#ff7a45;--glow:rgba(255,45,61,.34);--hdr:rgba(7,7,10,.78)}}
+:root[data-theme="dark"]{--bg:#07070a;--fg:#f7eeee;--muted:#a99c9e;--card:#111116;--line:rgba(255,255,255,.1);--accent:#ff2d3d;--accent2:#ff7a45;--glow:rgba(255,45,61,.34);--hdr:rgba(7,7,10,.78)}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:calc(env(safe-area-inset-top,0px) + 104px)}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.6 "Space Grotesk",system-ui,sans-serif;overflow-x:hidden;background-image:radial-gradient(ellipse 80% 50% at 50% -5%,var(--glow),transparent 70%)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--hdr);backdrop-filter:blur(14px)}
+a{color:inherit;text-decoration:none}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:6px}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;display:flex;align-items:center;gap:14px;padding:12px 20px;background:var(--hdr);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.logo{font-weight:700;font-size:1.15rem;letter-spacing:.02em;margin-right:auto;display:flex;align-items:center;gap:8px}
+.logo i{width:12px;height:12px;border-radius:50%;background:var(--accent);box-shadow:0 0 14px var(--accent);animation:pulse 2s infinite}
+nav{display:flex;gap:20px;font-size:.92rem;color:var(--muted)}
+nav a:hover{color:var(--fg)}
+@media(max-width:720px){header{flex-wrap:wrap;gap:8px 10px}nav{order:5;width:100%;overflow-x:auto;gap:18px;white-space:nowrap;scrollbar-width:none}}
+button{font:inherit;cursor:pointer;color:inherit}
+.ghost{background:none;border:1px solid var(--line);border-radius:999px;padding:6px 12px;font-size:.85rem}
+.btn{display:inline-block;border:0;border-radius:999px;padding:13px 26px;font-weight:700;color:#fff;background:linear-gradient(135deg,var(--accent),var(--accent2));box-shadow:0 8px 34px var(--glow);transition:transform .2s}
+.btn:hover{transform:translateY(-2px)}
+.btn.line{background:none;color:var(--fg);border:1px solid var(--line);box-shadow:none}
+section{max-width:1080px;margin:0 auto;padding:84px 20px 0}
+h1{font-size:clamp(2.3rem,8.2vw,5rem);line-height:1.02;letter-spacing:-.035em;margin:18px 0}
+h2{font-size:clamp(1.7rem,4.6vw,2.7rem);line-height:1.1;letter-spacing:-.025em;margin:0 0 14px}
+.lead{color:var(--muted);max-width:56ch;font-size:1.08rem}
+.hero{text-align:center;padding-top:64px}
+.hero .lead{margin:0 auto}
+.hero h1{background:linear-gradient(180deg,var(--fg) 30%,var(--accent));-webkit-background-clip:text;background-clip:text;color:transparent}
+.badge{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:999px;padding:6px 14px;font-size:.85rem;color:var(--muted);background:var(--card)}
+.dot{width:8px;height:8px;border-radius:50%;background:#2fe07a;box-shadow:0 0 10px #2fe07a;animation:pulse 1.6s infinite}
+.cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin:30px 0 14px}
+#sp{position:absolute;left:0;bottom:-1px;height:2px;width:0;background:linear-gradient(90deg,var(--accent),var(--accent2))}
+.ask{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;max-width:560px;margin:6px auto 0}
+.ask input{flex:1;min-width:220px;font:inherit;padding:13px 18px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--fg)}
+@keyframes pulse{50%{opacity:.35}}
+/* monitor */
+.mon{margin-top:46px;text-align:left;background:var(--mbg);color:var(--mfg);border-radius:18px;border:1px solid rgba(255,45,61,.55);box-shadow:0 0 0 4px rgba(255,45,61,.08),0 0 80px var(--glow);overflow:hidden}
+.bar{display:flex;align-items:center;gap:7px;padding:10px 14px;border-bottom:1px solid rgba(255,255,255,.08);font:12px "JetBrains Mono",monospace;color:var(--mmut)}
+.bar b{width:10px;height:10px;border-radius:50%;background:#ff5f57}.bar b:nth-child(2){background:#febc2e}.bar b:nth-child(3){background:#28c840}
+.bar span:last-child{margin-left:auto;display:flex;align-items:center;gap:6px;color:#2fe07a}
+.stage{position:relative;height:250px;background-image:linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);background-size:28px 28px;overflow:hidden}
+.node{position:absolute;border:1px solid;border-radius:10px;padding:8px 12px;font:12px "JetBrains Mono",monospace;background:rgba(10,10,14,.9)}
+.n1{left:5%;top:14%;border-color:#ff2d3d}.n2{left:38%;top:52%;border-color:#a78bfa}.n3{right:5%;top:18%;border-color:#2fe07a}
+.n0{left:50%;top:6%;transform:translateX(-50%);width:min(88%,380px);text-align:center;border-color:#ffb020;padding:14px;font:700 1.25rem "Space Grotesk",sans-serif;box-shadow:0 0 30px rgba(255,176,32,.2)}
+.n0 small{display:block;font:12px "JetBrains Mono",monospace;color:var(--mmut);font-weight:400}
+.stage svg{position:absolute;inset:0;width:100%;height:100%}
+.stage path{fill:none;stroke:rgba(255,45,61,.6);stroke-width:1.4;stroke-dasharray:6 6;animation:dash 1.4s linear infinite}
+@keyframes dash{to{stroke-dashoffset:-24}}
+.cur{position:absolute;left:10%;top:60%;transition:left 1.5s cubic-bezier(.5,0,.2,1),top 1.5s cubic-bezier(.5,0,.2,1);font:600 11px "JetBrains Mono",monospace;padding:3px 8px;border-radius:6px 6px 6px 0;color:#0a0a0e}
+.log{padding:12px 14px;font:12px/1.7 "JetBrains Mono",monospace;height:156px;overflow:hidden;border-top:1px solid rgba(255,255,255,.08)}
+.log div{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.log em{font-style:normal;color:var(--accent)}.log s{text-decoration:none;color:var(--mmut)}
+.prog{display:flex;align-items:center;gap:12px;padding:10px 14px 14px;font:12px "JetBrains Mono",monospace;color:var(--mmut)}
+.prog i{flex:1;height:6px;border-radius:9px;background:rgba(255,255,255,.1);overflow:hidden}
+.prog i u{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .6s}
+.stats{display:flex;justify-content:center;gap:clamp(18px,6vw,64px);flex-wrap:wrap;margin-top:34px}
+.stats b{display:block;font-size:2rem;letter-spacing:-.03em}
+.stats span{color:var(--muted);font-size:.9rem}
+/* features */
+.feat{margin-top:30px;border-top:1px solid var(--line)}
+.feat div{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.6fr);gap:10px 30px;padding:22px 0;border-bottom:1px solid var(--line);position:relative}
+.feat div::before{content:"";position:absolute;left:0;top:-1px;height:1px;width:0;background:var(--accent);transition:width .5s}
+.feat div:hover::before{width:100%}
+.feat h3{margin:0;font-size:1.2rem}.feat p{margin:0;color:var(--muted)}
+@media(max-width:640px){.feat div{grid-template-columns:1fr}}
+/* steps */
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;margin-top:30px;counter-reset:s}
+.steps div{counter-increment:s;padding:24px;border-radius:18px;background:var(--card);border:1px solid var(--line)}
+.steps div::before{content:counter(s);display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:var(--accent);color:#fff;font-weight:700;margin-bottom:14px}
+.steps h3{margin:0 0 6px}.steps p{margin:0;color:var(--muted)}
+/* lab */
+.lab{margin-top:30px;padding:28px;border-radius:22px;border:1px solid var(--line);background:var(--card)}
+.lab input[type=range]{width:100%;accent-color:var(--accent);margin:18px 0}
+.out{display:flex;gap:30px;flex-wrap:wrap}.out b{font-size:2.2rem;letter-spacing:-.03em;display:block}.out span{color:var(--muted);font-size:.9rem}
+/* pricing */
+.plans{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;margin-top:30px;align-items:stretch}
+.plan{padding:28px;border-radius:22px;border:1px solid var(--line);background:var(--card);display:flex;flex-direction:column;gap:10px}
+.plan.hot{border-color:var(--accent);box-shadow:0 0 60px var(--glow)}
+.plan h3{margin:0}.price{font-size:2.4rem;font-weight:700;letter-spacing:-.03em}.price small{font-size:.9rem;color:var(--muted);font-weight:400}
+.plan ul{list-style:none;padding:0;margin:4px 0 14px;color:var(--muted);flex:1}.plan li{padding:5px 0}.plan li::before{content:"✓";color:var(--accent);margin-right:8px}
+.plan .btn{text-align:center}
+/* quotes */
+.quotes{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:30px;margin-top:30px}
+blockquote{margin:0;padding-left:18px;border-left:2px solid var(--accent);color:var(--muted)}
+blockquote cite{display:block;margin-top:10px;color:var(--fg);font-style:normal;font-weight:700;font-size:.9rem}
+/* faq */
+details{border-bottom:1px solid var(--line);padding:18px 0}
+summary{cursor:pointer;font-weight:700;list-style:none;display:flex;justify-content:space-between;gap:12px}
+summary::after{content:"+";color:var(--accent);font-size:1.4rem;line-height:1;transition:transform .25s}
+details[open] summary::after{transform:rotate(45deg)}
+details p{color:var(--muted);margin:10px 0 0;max-width:62ch}
+/* newsletter */
+.loop{margin-top:30px;text-align:center;padding:54px 22px;border-radius:26px;border:1px solid var(--accent);background:radial-gradient(ellipse at 50% 120%,var(--glow),transparent 70%),var(--card)}
+.loop h2{font-size:clamp(2rem,6vw,3.4rem)}
+.mail{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:22px}
+.mail input{font:inherit;padding:13px 18px;border-radius:999px;border:1px solid var(--line);background:var(--bg);color:var(--fg);min-width:min(100%,280px)}
+#msg{min-height:1.6em;margin-top:12px;color:var(--muted);font-size:.92rem}
+.ct{margin:18px 0 0;font-size:.9rem;color:var(--muted)}
+.crew{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:10px}
+.crew span{font:12px "JetBrains Mono",monospace;padding:5px 12px;border-radius:999px;border:1px solid var(--line);color:var(--muted);transition:all .3s}
+.crew span::before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--muted);margin-right:7px}
+.crew span.on{border-color:var(--accent);color:var(--fg);box-shadow:0 0 18px var(--glow)}
+.crew span.on::before{background:#2fe07a;box-shadow:0 0 8px #2fe07a}
+footer{max-width:1080px;margin:0 auto;padding:60px 20px 40px;color:var(--muted);font-size:.88rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.pv{border-top:1px solid rgba(255,255,255,.08)}
+.pv iframe{display:block;width:100%;height:440px;border:0;background:#fff}
+.modal{position:fixed;inset:0;z-index:50;display:grid;place-items:center;padding:20px;background:rgba(0,0,0,.6);backdrop-filter:blur(6px)}
+.modal[hidden]{display:none}
+.box{position:relative;width:min(100%,380px);padding:28px;border-radius:22px;background:var(--card);border:1px solid var(--accent);box-shadow:0 0 70px var(--glow);display:grid;gap:12px}
+.box h3{margin:0;font-size:1.4rem}
+.box input{font:inherit;padding:13px 16px;border-radius:14px;border:1px solid var(--line);background:var(--bg);color:var(--fg);width:100%}
+.box .x{position:absolute;right:14px;top:10px;background:none;border:0;font-size:1.6rem;line-height:1;color:var(--muted)}
+.box div{display:grid;gap:12px}
+.lcode{margin:0;padding:10px 14px;border-radius:12px;background:var(--bg);border:1px dashed var(--accent);font:13px "JetBrains Mono",monospace}
+.lm{margin:0;min-height:1.4em;font-size:.9rem;color:var(--accent)}
+.ln{margin:0;font-size:.8rem;color:var(--muted)}
+.rv{opacity:0;transform:translateY(18px);transition:opacity .7s,transform .7s}.rv.on{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<header>
+  <a class="logo" href="#top"><i></i>AGENTX</a>
+  <nav><a href="#ozellikler">Özellikler</a><a href="#nasil">Nasıl çalışır</a><a href="#lab">Ordu</a><a href="#fiyat">Fiyat</a><a href="#sss">SSS</a></nav>
+  <button class="ghost" id="theme" aria-label="Temayı değiştir">Tema</button>
+  <button class="ghost" id="lb">Giriş</button>
+  <a class="btn" style="padding:8px 18px" href="#loop">Başla</a><i id="sp"></i>
+</header>
+
+<section class="hero" id="top">
+  <span class="badge"><span class="dot"></span>Şu an <span id="live">18</span> ajan siteni kuruyor</span>
+  <h1>Web siteni yapay zekâ ajanları kursun.</h1>
+  <p class="lead">Bir cümleyle anlat. Onlarca ajan aynı anda tasarlar, kodlar, test eder ve yayına alır. Sen izlersin.</p>
+  <div class="cta"><a class="btn" href="#loop">Ücretsiz dene</a><a class="btn line" href="#lab">Ajan ordusunu kur</a></div>
+  <div class="ask"><input id="pr" type="text" maxlength="60" placeholder="Siten ne olsun? Örn: Kahve dükkânım için site" aria-label="Sitenin ne olacağını yaz"><button class="btn" id="go">Kurdur</button></div>
+  <p id="gm" class="ct" role="status"></p>
+
+  <div class="mon" aria-label="Canlı ajan paneli">
+    <div class="bar"><b></b><b></b><b></b><span>&nbsp;localhost:3000</span><span><span class="dot"></span>18 ajan canlı</span></div>
+    <div class="stage" id="stage">
+      <svg viewBox="0 0 600 250" preserveAspectRatio="none" aria-hidden="true"><path d="M300 70 C300 120 120 90 90 70"/><path d="M300 70 C300 130 260 130 260 150"/><path d="M300 70 C330 110 520 90 520 70"/></svg>
+      <div class="node n0">Haberdar kal<small>5 ajan çalışıyor: yeni paketler, güncellemeler.</small></div>
+      <div class="node n1">tasarım-ajanı</div><div class="node n2">kod-ajanı</div><div class="node n3">test-ajanı</div>
+      <span class="cur" style="background:#ff2d3d">Ece</span><span class="cur" style="background:#a78bfa">Kod</span><span class="cur" style="background:#2fe07a">Test</span>
+    </div>
+    <div class="log" id="log" aria-live="off"></div>
+    <div class="prog"><span id="lay">0 / 255 katman</span><i><u id="pb"></u></i><span id="st">çalışıyor</span></div>
+    <div class="pv" id="pv" hidden><iframe id="fr" sandbox title="Kurulan site önizlemesi"></iframe></div>
+  </div>
+
+  <div class="stats">
+    <div><b data-n="255">0</b><span>katman, tek seferde</span></div>
+    <div><b data-n="32">0</b><span>paralel ajan</span></div>
+    <div><b data-n="98">0</b><span>Lighthouse puanı</span></div>
+    <div><b data-n="4">0</b><span>dakikada yayında</span></div>
+  </div>
+</section>
+
+<section id="ozellikler" class="rv">
+  <h2>Bir sitede olması gereken her şey.</h2>
+  <p class="lead">Ayrı ayrı araç, ajans ya da freelancer aramana gerek yok.</p>
+  <div class="feat">
+    <div><h3>Paralel ajanlar</h3><p>Tasarım, kod, içerik ve test ajanları aynı anda çalışır. Sıra beklemezsin.</p></div>
+    <div><h3>Canlı önizleme</h3><p>Her değişikliği anında tarayıcıda görürsün ve istediğin anda araya girersin.</p></div>
+    <div><h3>Kendini düzelten kod</h3><p>Test ajanı hatayı bulur, kod ajanı düzeltir. Sen sadece sonucu görürsün.</p></div>
+    <div><h3>Hızlı ve görünür</h3><p>Görseller küçülür, SEO etiketleri yazılır, sayfa her cihazda saniyeler içinde açılır.</p></div>
+    <div><h3>Her dilde</h3><p>Siteni Türkçe yaz, ajanlar 40’tan fazla dile çevirsin.</p></div>
+    <div><h3>Tek tıkla yayın</h3><p>Alan adı, SSL ve barındırma hazır gelir. Yayınla düğmesine bas, bitti.</p></div>
+  </div>
+</section>
+
+<section id="nasil" class="rv">
+  <h2>Üç adımda yayında.</h2>
+  <div class="steps">
+    <div><h3>Anlat</h3><p>Ne istediğini bir iki cümleyle yaz. Örnek, renk ya da link eklemek istersen ekle.</p></div>
+    <div><h3>İzle</h3><p>Ajanlar işi bölüşür. Hangi ajanın ne yaptığını canlı panelden takip edersin.</p></div>
+    <div><h3>Yayınla</h3><p>Beğendiğin anda yayına al ya da ajanlara yeni bir istek ver.</p></div>
+  </div>
+</section>
+
+<section id="lab" class="rv">
+  <h2>Kendi ajan ordunu kur.</h2>
+  <p class="lead">Ne kadar çok ajan, o kadar kısa süre. Kaydırıcıyı oynat.</p>
+  <div class="lab">
+    <label for="ag"><b id="agn">12</b> ajan çalışsın</label>
+    <input id="ag" type="range" min="1" max="32" value="12">
+    <div class="out"><div><b id="tm">8 dk</b><span>tahmini süre</span></div><div><b id="pg">96</b><span>sayfa / saat</span></div><div><b id="cs">$59</b><span>tahmini aylık fiyat</span></div></div>
+  </div>
+</section>
+
+<section id="fiyat" class="rv">
+  <h2>Sade fiyat.</h2>
+  <p class="lead">Ücretsiz başla, ihtiyacın büyüdükçe yükselt. Fiyatlar örnektir.</p>
+  <div class="plans">
+    <div class="plan"><h3>Ücretsiz</h3><div class="price">$0<small> /ay</small></div><ul><li>1 site</li><li>4 ajan</li><li>agentx.site alt alan adı</li></ul><a class="btn line" href="#loop">Ücretsiz başla</a></div>
+    <div class="plan"><h3>Başlangıç</h3><div class="price">$29<small> /ay</small></div><ul><li>3 site</li><li>8 ajan</li><li>Kendi alan adın</li></ul><a class="btn line" href="#loop">14 gün dene</a></div>
+    <div class="plan hot"><h3>Pro</h3><div class="price">$59<small> /ay</small></div><ul><li>10 site</li><li>18 ajan</li><li>Kendi alan adın</li><li>Öncelikli yayın</li></ul><a class="btn" href="#loop">Pro’ya geç</a></div>
+    <div class="plan"><h3>Ordu</h3><div class="price">$119<small> /ay</small></div><ul><li>Sınırsız site</li><li>32 ajan</li><li>Takım hesabı</li><li>Özel destek</li></ul><a class="btn line" href="#loop">Bize yaz</a></div>
+  </div>
+</section>
+
+<section class="rv">
+  <h2>Kullananlar ne diyor?</h2>
+  <div class="quotes">
+    <blockquote>“Ajansa üç haftalık iş çıkaracaktım. Öğle arasında yayına aldım.”<cite>Deniz, kafe sahibi</cite></blockquote>
+    <blockquote>“Panelden ajanların çalışmasını izlemek bile başlı başına eğlence.”<cite>Mert, yazılımcı</cite></blockquote>
+    <blockquote>“Mobil uyumluluğu ben hiç düşünmedim. Ajanlar düşünmüş.”<cite>Selin, fotoğrafçı</cite></blockquote>
+  </div>
+</section>
+
+<section id="sss" class="rv">
+  <h2>Sık sorulanlar</h2>
+  <details><summary>Kod bilmem gerekir mi?</summary><p>Hayır. Ne istediğini yazman yeterli. Kod bilenler için kaynak kodunu da indirebilirsin.</p></details>
+  <details><summary>Kendi alan adımı bağlayabilir miyim?</summary><p>Evet. Pro ve Ordu paketlerinde alan adını birkaç adımda bağlarsın, SSL otomatik gelir.</p></details>
+  <details><summary>Siteyi sonradan değiştirebilir miyim?</summary><p>Elbette. Ajanlara yeni bir istek yaz, sadece o bölümü günceller.</p></details>
+  <details><summary>Ajanlar yanlış yaparsa ne olur?</summary><p>Test ajanı her değişikliği kontrol eder. Beğenmediğin bir şeyi tek tıkla geri alırsın.</p></details>
+</section>
+
+<section id="loop" class="rv">
+  <div class="loop">
+    <h2>Haberdar kal.</h2>
+    <p class="lead" style="margin:0 auto">Yeni paketler, güncellemeler ve ara sıra indirimler. Spam yok, istediğin an çıkarsın.</p>
+    <p id="crewtxt" class="ct">5 ajan hazır</p>
+    <div class="crew"><span>doğrulama</span><span>kayıt</span><span>karşılama</span><span>haber</span><span>güvenlik</span></div>
+    <div class="mail"><input id="em" type="email" placeholder="isim@ornek.com" aria-label="E-posta adresi"><button class="btn" id="sub">Abone ol</button></div>
+    <div id="msg" role="status"></div>
+  </div>
+</section>
+
+<footer><span>© 2026 AGENTX. Tüm hakları saklıdır.</span><span>Gizlilik · Şartlar · İletişim</span></footer>
+
+<div class="modal" id="lg" hidden><div class="box" role="dialog" aria-modal="true" aria-labelledby="lgt">
+  <button class="x" id="lx" aria-label="Kapat">×</button>
+  <h3 id="lgt">Giriş yap</h3>
+  <div id="s1"><input id="le" type="email" placeholder="E-posta" autocomplete="email"><input id="lp" type="password" placeholder="Şifre (en az 8 karakter)" autocomplete="current-password"><button class="btn" id="l1">Devam</button></div>
+  <div id="s2" hidden><p class="lcode" id="lc"></p><input id="lk" inputmode="numeric" maxlength="6" placeholder="6 haneli kod" autocomplete="one-time-code"><button class="btn" id="l2">Doğrula</button><button class="ghost" id="l3">Kodu tekrar gönder</button></div>
+  <p class="lm" id="lm" role="status"></p>
+  <p class="ln">Demo giriş: gerçek e-posta gönderilmez, şifren hiçbir yere kaydedilmez. Gerçek şifreni yazma.</p>
+</div></div>
+
+<script>
+(function(){
+var $=function(i){return document.getElementById(i)};
+/* theme */
+var root=document.documentElement;
+try{var t=localStorage.getItem("ax-theme");if(t)root.setAttribute("data-theme",t)}catch(e){}
+$("theme").onclick=function(){
+  var dark=root.getAttribute("data-theme")?root.getAttribute("data-theme")==="dark":matchMedia("(prefers-color-scheme:dark)").matches;
+  var n=dark?"light":"dark";root.setAttribute("data-theme",n);
+  try{localStorage.setItem("ax-theme",n)}catch(e){}
+};
+/* reveal */
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add("on");io.unobserve(e.target)}})},{threshold:.12});
+document.querySelectorAll(".rv").forEach(function(el){io.observe(el)});
+/* count up */
+var co=new IntersectionObserver(function(es){es.forEach(function(e){if(!e.isIntersecting)return;co.unobserve(e.target);
+  var el=e.target,end=+el.dataset.n,s=performance.now();
+  (function f(n){var p=Math.min((n-s)/1400,1);el.textContent=Math.round(end*(1-Math.pow(1-p,3)));if(p<1)requestAnimationFrame(f)})(s)})},{threshold:.5});
+document.querySelectorAll("[data-n]").forEach(function(el){co.observe(el)});
+/* live log */
+var msgs=[["tasarım","hero bölümünü kırmızı temaya geçirdi"],["kod","navigasyon çubuğunu mobil uyumlu yaptı"],["test","18 sayfada bağlantı kontrolü: hata yok"],["içerik","Türkçe metinleri yazdı"],["kod","e-posta formuna doğrulama ekledi"],["tasarım","kartlara hover efekti ekledi"],["test","Lighthouse hız ölçümü: 98"],["görsel","12 görseli küçülttü"],["seo","başlık ve açıklama etiketlerini yazdı"],["kod","koyu mod anahtarını bağladı"],["çeviri","siteyi İngilizceye çevirdi"],["test","form gönderimi başarılı"]];
+var job=null,log=$("log"),i=0;
+function tick(){
+  var m,d=new Date(),ts=d.toTimeString().slice(0,8);
+  if(job)m=job.steps[job.k++];else m=msgs[i++%msgs.length];
+  var row=document.createElement("div");
+  row.innerHTML="<s>"+ts+"</s> <em>"+m[0]+"-ajanı</em> "+m[1];
+  log.appendChild(row);while(log.children.length>7)log.removeChild(log.firstChild);
+  var l=job?Math.round(job.k/job.steps.length*255):Math.min(255,Math.round(((i%14)+1)/14*255));
+  $("lay").textContent=l+" / 255 katman";$("pb").style.width=(l/255*100)+"%";
+  $("st").textContent=l>=255?"hazır":"çalışıyor";
+  if(job&&job.k>=job.steps.length)job=null;
+  $("live").textContent=17+(i%3===0?1:0)+(i%5===0?1:0)-(i%5===0?1:0);
+}
+tick();tick();tick();setInterval(tick,1300);
+/* cursors */
+var st=$("stage"),curs=st.querySelectorAll(".cur");
+function move(){var w=st.clientWidth,h=st.clientHeight;
+  curs.forEach(function(c){c.style.left=Math.random()*(w-70)+"px";c.style.top=(h*.3+Math.random()*(h*.55))+"px"})}
+move();setInterval(move,1700);
+/* prompt → site */
+var sm=null;
+(async function(){try{if(window.claude)sm=await window.claude.use("sample")}catch(e){}})();
+$("go").onclick=async function(){
+  var p=$("pr").value.replace(/[<>&"'“”]/g,"").trim().slice(0,60)||"Kahve dükkânım için site";
+  job={k:0,steps:[["brief","“"+p+"” isteğini aldı"],["plan","7 bölümlük site planını çıkardı"],["tasarım","renk ve yazı tipini seçti"],["kod","sayfaları 5 ajana böldü"],["içerik","metinleri yazdı"],["görsel","görselleri hazırladı"],["test","mobil ve hız testi: 98"],["yayın","site yayında ✓"]]};
+  document.querySelector(".n0 small").textContent=p;
+  document.querySelector(".mon").scrollIntoView({behavior:"smooth",block:"center"});
+  tick();
+  var gm=$("gm"),b=$("go");
+  if(!sm){gm.textContent="Gerçek site kurma sadece Claude içinde açıkken çalışır. Şimdilik animasyonu görüyorsun.";return}
+  b.disabled=true;b.textContent="Kuruluyor…";gm.textContent="Claude siteni yazıyor, biraz sürebilir…";
+  try{
+    var r=await sm("Bir web tasarımcısısın. Şu istek için tek dosyalık, mobil uyumlu, çok şık bir tanıtım sayfasının TAM HTML kodunu yaz: "+p+". Kurallar: Türkçe yaz. Sadece <style> içinde CSS kullan. Script, dış kaynak ve görsel URL’si koyma; emoji ve CSS gradyanları kullan. Koyu zemin ve canlı bir vurgu rengi seç. Bölümler: başlık alanı, hakkında, 3 ürün veya hizmet, yorum, iletişim. En fazla 5000 karakter. Yanıtta yalnızca HTML olsun.",{modelTier:"quick"});
+    var h=(r.text||"").replace(/```html|```/g,"").trim();
+    if(h.length<200)throw new Error("bos");
+    $("fr").srcdoc=h;$("pv").hidden=false;gm.textContent="Siten hazır. Aşağıdaki önizlemede.";
+    $("pv").scrollIntoView({behavior:"smooth",block:"center"});
+  }catch(e){gm.textContent=e&&e.code==="rate_limited"?"Çok hızlı denedin, biraz bekleyip tekrar dene.":e&&e.code==="not_granted"?"İzin vermediğin için site kurulamadı.":"Site kurulamadı, tekrar dene."}
+  b.disabled=false;b.textContent="Kurdur";
+};
+$("pr").onkeydown=function(e){if(e.key==="Enter")$("go").click()};
+/* scroll progress */
+addEventListener("scroll",function(){var h=document.documentElement,t=h.scrollHeight-h.clientHeight;$("sp").style.width=(t>0?Math.min(100,h.scrollTop/t*100):0)+"%"},{passive:true});
+/* demo giriş */
+var lg=$("lg"),code="",tries=0,me=null,rs=0;
+try{me=localStorage.getItem("ax-me")}catch(e){}
+function who(){$("lb").textContent=me?me.split("@")[0]+" · Çıkış":"Giriş"}
+function step(n){$("s1").hidden=n!==1;$("s2").hidden=n!==2;$("lgt").textContent=n===1?"Giriş yap":"Doğrulama kodu";$("lm").textContent=""}
+function newCode(){var a=new Uint32Array(1);crypto.getRandomValues(a);code=String(100000+a[0]%900000);tries=0;$("lc").textContent="Demo kodu: "+code+" (gerçek e-posta gönderilmez)";$("lk").value="";
+  clearInterval(rs);var s=30,r=$("l3");r.disabled=true;r.textContent="Tekrar gönder ("+s+")";
+  rs=setInterval(function(){s--;if(s<=0){clearInterval(rs);r.disabled=false;r.textContent="Kodu tekrar gönder"}else r.textContent="Tekrar gönder ("+s+")"},1000)}
+function closeLg(){lg.hidden=true;clearInterval(rs);$("lp").value=""}
+$("lb").onclick=function(){if(me){me=null;try{localStorage.removeItem("ax-me")}catch(e){}who();return}lg.hidden=false;step(1);$("le").focus()};
+$("lx").onclick=closeLg;
+lg.onclick=function(e){if(e.target===lg)closeLg()};
+addEventListener("keydown",function(e){if(e.key==="Escape"&&!lg.hidden)closeLg()});
+$("l1").onclick=function(){var e=$("le").value.trim(),m=$("lm");
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(e)){m.textContent="Geçerli bir e-posta yaz.";return}
+  if($("lp").value.length<8){m.textContent="Şifre en az 8 karakter olmalı.";return}
+  $("lp").value="";newCode();step(2);$("lk").focus()};
+$("l3").onclick=newCode;
+$("l2").onclick=function(){var m=$("lm");
+  if($("lk").value.trim()===code){me=$("le").value.trim();try{localStorage.setItem("ax-me",me)}catch(e){}who();closeLg();if($("em"))$("em").value=me;return}
+  tries++;
+  if(tries>=3){step(1);m.textContent="3 kez yanlış girdin. Baştan başla.";return}
+  m.textContent="Kod yanlış. Kalan hak: "+(3-tries)};
+who();
+/* army */
+var ag=$("ag");
+function army(){var n=+ag.value;
+  $("agn").textContent=n;$("tm").textContent=Math.max(2,Math.round(96/n))+" dk";
+  $("pg").textContent=n*8;$("cs").textContent="$"+(n<=4?0:n<=8?29:n<=18?59:119);}
+ag.oninput=army;army();
+/* newsletter */
+var chips=document.querySelectorAll(".crew span"),ct=$("crewtxt");
+function sleep(ms){return new Promise(function(r){setTimeout(r,ms)})}
+async function runCrew(){ct.textContent="5 ajan çalışıyor…";for(var k=0;k<chips.length;k++){chips[k].classList.add("on");await sleep(380)}}
+var dbx=null,uid=null;
+(async function(){try{var c=window.claude;if(!c)return;var u=await c.use("user"),d=await c.use("db");if(u&&d){uid=await u.id();dbx=d}}catch(e){}})();
+$("sub").onclick=async function(){
+  var v=$("em").value.trim(),m=$("msg"),b=$("sub");
+  m.style.color="var(--accent)";
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)){m.textContent="Geçerli bir e-posta adresi yaz. Örnek: isim@ornek.com";return}
+  var online=!!(dbx&&uid);
+  b.disabled=true;b.textContent="Kaydediliyor…";m.style.color="var(--muted)";m.textContent="";
+  try{
+    var run=runCrew();
+    if(online)await dbx.doc("subscribers/"+uid).set({email:v,at:Date.now()});else await sleep(300);
+    await run;ct.textContent="5 ajan tamamladı ✓";
+    document.querySelector(".mail").innerHTML=online?"<b>Abone oldun ✓</b>":"<b>Önizleme tamam ✓</b>";
+    m.style.color="#2fa862";m.textContent=online?v+" adresine ilk haber yakında gelecek.":"Önizleme modundasın: e-postan sunucuya kaydedilmedi. Sayfayı Claude içinde giriş yapmış hâldeyken açarsan kaydedilir.";
+  }catch(e){chips.forEach(function(c){c.classList.remove("on")});ct.textContent="5 ajan hazır";b.disabled=false;b.textContent="Abone ol";m.style.color="var(--accent)";m.textContent="Kaydedilemedi. Biraz sonra tekrar dene.";}
+};
+})();
+</script>
+</body>
+</html>
